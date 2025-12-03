@@ -1,6 +1,6 @@
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   Joanelis Rivera Matos / 002
  *
  *   Note, additional comments provided throughout this source code
  *   is for educational purposes
@@ -104,7 +104,30 @@ public class Graph {
   
   public int findRoot() {
 
-    // ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME/SECTION AT TOP OF FILE
-    return -1;
+    int[] degree = new int[numVertices];
+
+    for (int i = 0; i < numVertices; i++) {
+      for (int dest : adjListArr[i]) {
+        degree[dest]++;
+      }
+    }
+
+    int rootIndex = -1;
+
+    for (int i = 0; i < numVertices; i++) {
+      if (degree[i] == 0) {
+        if(rootIndex != -1) {
+          return -1;
+        }
+        rootIndex = i;
+      }
+    }
+
+    if (rootIndex == -1) {
+      return -1;
+    }
+
+
+    return vertexValues.get(rootIndex);
   } 
 }
