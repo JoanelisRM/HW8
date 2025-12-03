@@ -1,6 +1,6 @@
 /******************************************************************
  *
- *   ADD YOUR NAME / SECTION NUMBER HERE
+ *   Joanelis Rivera Matos / 002
  *
  *   This java file contains the problem solutions of canFinish and
  *   numGroups methods.
@@ -82,7 +82,41 @@ class ProblemSolutions {
                                         prerequisites); 
 
         // ADD YOUR CODE HERE - ADD YOUR NAME / SECTION AT TOP OF FILE
-        return false;
+        int[] degree = new int[nodeNumbers];
+
+        for (int i = 0; i < numExams; i++) {
+            for (int number : adj[i]) {
+                degree[number]++;
+            }
+        }
+
+        LinkedList<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < numExams; i++) {
+            if (degree[i] == 0) {
+                queue.offer(i);
+            }
+        }
+
+        int count = 0;
+
+        while (!queue.isEmpty()) {
+            int current = queue.poll();
+            count++;
+
+            for (int neighbor : adj[current]) {
+                degree[neighbor]--;
+                if (degree[neighbor] == 0) {
+                    queue.offer(neighbor);
+                }
+            }
+        }
+
+
+        if(count == numExams){
+            return true;
+        } else{
+            return false;
+        }
 
     }
 
@@ -192,7 +226,28 @@ class ProblemSolutions {
 
         // YOUR CODE GOES HERE - you can add helper methods, you do not need
         // to put all code in this method.
-        return -1;
+        Set<Integer> groupsVisited = new HashSet<>();
+        int count = 0;
+
+        for (int node = 0; node < numNodes; node++) {
+            if (!groupsVisited.contains(node)) {
+                depthFirstSearch(node, graph, groupsVisited);
+                count++;
+            }
+        }
+        return count;
     }
 
+    private void depthFirstSearch(int node, Map<Integer, List<Integer>> graph, Set<Integer> groupsVisited) {
+        if (groupsVisited.contains(node)){
+            return;
+        }
+        groupsVisited.add(node);
+
+        for (int neighbor : graph.getOrDefault(node, new ArrayList<>())) {
+            depthFirstSearch(neighbor, graph, groupsVisited);
+        }
+
+    }
+       
 }
